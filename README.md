@@ -10,7 +10,7 @@ Firmware functions and variables are added automatically based on the spark API'
 
 ##Common
 ###Events
-The main event you care about is connect.  This is fired when the cloud has returned and all variables and functions should be registered on your instance.
+The main event you care about is connect.  This is fired when the cloud has returned and all variables and functions should be registered on your instance. This is true for both Core and Collection.
 
 ##Core
 Create a new instance of a spark core. First parameter is authtoken, second parameter is deviceId.
