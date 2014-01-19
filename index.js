@@ -68,12 +68,16 @@ var Core = exports.Core = function Core (authtoken, deviceId) {
                   data = new Buffer(data).toString();
                 }
 
-                callback(null, JSON.parse(d.toString()));
+                if(callback) {
+                  callback(null, JSON.parse(d.toString()));
+                }
               });
             });
             req.end();
             req.on('error', function(err) {
-              callback(err);
+              if(callback) {
+                callback(err);
+              }
             });
           };
         });
@@ -91,8 +95,10 @@ var Core = exports.Core = function Core (authtoken, deviceId) {
             //Make request to cloud with params
             var req = https.request(opts, function(res) {
               res.on('data', function(d) {
-                //Call the callback with the value.
-                callback(null, JSON.parse(d.toString()).return_value);
+                if(callback) {
+                  //Call the callback with the value.
+                  callback(null, JSON.parse(d.toString()).return_value);
+                }
               });
             });
 
@@ -102,7 +108,9 @@ var Core = exports.Core = function Core (authtoken, deviceId) {
 
             req.end();
             req.on('error', function(err) {
-              callback(err);
+              if(callback) {
+                callback(err);
+              }
             });
           };
         });

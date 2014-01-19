@@ -1,7 +1,7 @@
 {
-  "name": "Sparknode",
-  "version": "0.1.0",
-  "description": "Allows node.js to interface with a sparkcore.",
+  "name": "sparknode",
+  "version": "0.1.1",
+  "description": "Allows node.js to interface with a sparkcore through the spark.io cloud api.",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -12,8 +12,8 @@
     "spark",
     "core",
     "microcontroller",
-    "embedded",
-    "wifi"
+    "wifi",
+    "embedded"
   ],
   "author": "Andrew Stuart",
   "license": "MIT",
