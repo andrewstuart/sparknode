@@ -1,5 +1,5 @@
 {
-  "name": "Nodecore",
+  "name": "Sparknode",
   "version": "0.0.1",
   "description": "Allows node.js to interface with a sparkcore.",
   "main": "index.js",
@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/andrewstuart/Sparknode/issues"
   },
-  "homepage": "https://github.com/andrewstuart/Sparknode"
+  "homepage": "https://github.com/andrewstuart/Sparknode",
+  "dependencies": {
+    "q": "~1.0.0"
+  }
 }
