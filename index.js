@@ -1,7 +1,6 @@
 'use strict';
 var https = require('https')
   , _ = require('lodash')
-  , qs = require('querystring')
   , events = require('events');
 
 function apiOpts (auth) {
@@ -85,6 +84,7 @@ var Core = exports.Core = function Core (authtoken, deviceId) {
         //Dynamically add functions as, uh, functions... on the core class.
         _.each(data.functions, function(func) {
           core[func] = function(param, callback) {
+            param = param || '';
 
             //Request options
             var opts = apiOpts(authtoken);
