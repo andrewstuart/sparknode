@@ -1,0 +1,24 @@
+{
+  "name": "Nodecore",
+  "version": "0.0.1",
+  "description": "Allows node.js to interface with a sparkcore.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andrewstuart/Sparknode"
+  },
+  "keywords": [
+    "sparkcore",
+    "spark",
+    "core",
+    "microcontroller",
+    "embedded",
+    "wifi"
+  ],
+  "author": "Andrew Stuart",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andrewstuart/Sparknode/issues"
+  },
+  "homepage": "https://github.com/andrewstuart/Sparknode"
+}
