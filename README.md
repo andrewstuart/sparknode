@@ -9,8 +9,8 @@ Methods will be added for the default tinker firmware as well as updated at inst
 
 #Constructors
 
-A. [Core](#Core)
-B. [Collection](#Collection)
+1. [Core](#core)
+2. [Collection](#collection)
 
 ##Core
 Create a new spark core. First parameter is auth_token, second parameter is deviceId.
