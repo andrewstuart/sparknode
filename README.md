@@ -47,7 +47,8 @@ core.variable1(function(err, data) {
 });
 ```
 
-Variables also have a property, autoupdate, that can be set with a timeout in milliseconds between each call, or true to use the default 15 second interval or false to cancel autoupdates.
+Variables also have a property, autoupdate, that can be set with a timeout in milliseconds between each call, or true to use the default 15 second interval or false to cancel autoupdates. Setting this variable will also start the update cycle.
+
 When being used with autoupdate, the variable will fire an 'update' event each time a response is received from the server.
 
 ```javascript
@@ -58,7 +59,7 @@ core.variable1.on('update', function(value) {
 });
 ```
 
-The last known value can be retreived as a property of the function.
+The last known value can be retreived as a property (value) of the function.
 
 ```javascript
 console.log(core.variable1.value);
