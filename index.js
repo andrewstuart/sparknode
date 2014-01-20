@@ -42,6 +42,9 @@ var Core = exports.Core = function Core (authtoken, deviceId) {
       res.on('data', function(d) {
         var data = JSON.parse(d.toString());
 
+        //Add information from API to core.
+        _.extend(core, data);
+
         //Dynamically add variables as a function on the core class.
         _.each(data.variables, function(variable) {
 
@@ -68,7 +71,12 @@ var Core = exports.Core = function Core (authtoken, deviceId) {
                 }
 
                 if(callback) {
-                  callback(null, JSON.parse(d.toString()));
+                  //Handle undefined responses nicely.
+                  if(data) {
+                    callback(null, JSON.parse(d.toString()));
+                  } else {
+                    callback('No data returned by the API.');
+                  }
                 }
               });
             });
@@ -96,8 +104,13 @@ var Core = exports.Core = function Core (authtoken, deviceId) {
             var req = https.request(opts, function(res) {
               res.on('data', function(d) {
                 if(callback) {
+                  //Handle undefined responses nicely.
+                  if(data) {
+                    callback(null, JSON.parse(d.toString()).return_value);
+                  } else {
+                    callback('Undefined was returned. Is you core powered on?');
+                  }
                   //Call the callback with the value.
-                  callback(null, JSON.parse(d.toString()).return_value);
                 }
               });
             });
