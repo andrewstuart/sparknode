@@ -77,7 +77,15 @@ collection.core1.doFunction('foo', function(err, data) {
 });
 ```
 
-Not sure why the cloud api takes forever to return my two spark cores, but this one takes at about 20 seconds.  I may cache these responses later for quicker reboots, but not yet, because once it's up, it's speedy.
+The default behavior is to cache the output of the cloud api for the initial call in a JSON object at your project root.  If you'd like to override this behavior, you can pass an options object (optional, of course) to the constructor.
+
+```javascript
+var collection = new Collection(myAuthToken, { skipCache: true })
+```
+or
+```javascript
+var collection = new Collection(myAuthToken, { cacheFile: 'lib/cacheFile.json' } )
+```
 
 ##Example
 
@@ -121,3 +129,15 @@ randomCore.on('connect', function() {
 This library should also work cross platform as it doesn't rely on curl behind the scenes.  I'm hoping it also makes it much easier for me to wire custom functions to a webapp.
 
 I'm also tracking some of the data that comes back from the spark cloud on the core objects themselves, such as `online`, though I'm not sure how useful that will end up being.
+
+##Future
+
+Future:
+
+I have several ideas I'd like to implement such a CLI for quick access.
+```bash
+sparknode core2 brew "coffee"
+```
+An API for the server sent events will also be a high priority as soon as that cloud API comes out.
+
+I'm also thinking about writing a custom firmware that lets you add many more than 4 functions, directly from the CLI or even programmatically, using string parsing on the client side. I don't know about anyone else, but I don't need 64 characters of input very often, so I figured they'd be more useful this way. Check out the issues tracker to add feature requests and see some of the plans I have.
