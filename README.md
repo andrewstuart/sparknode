@@ -1,6 +1,6 @@
 #About
 
-This package was built with the purpose of allowing cross-platform communication from node.js to a [sparkcore](http://docs.spark.io/#/api).
+This package was built with the purpose of allowing cross-platform communication from node.js to a [sparkcore](http://www.spark.io) through the [spark Cloud API](http://docs.spark.io/#/api).
 
 Firmware functions and variables are added automatically based on the spark API's HATEOS responses.
 
