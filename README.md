@@ -53,11 +53,17 @@ Variables also have a property, autoupdate, that can be set with a timeout in mi
 When being used with autoupdate, the variable will fire an 'update' event each time a response is received from the server.
 
 ```javascript
+//Start autoupdate
 core.variable1.autoupdate = 2000;
 
+//Do something on update
 core.variable1.on('update', function(value) {
   console.log(value);
 });
+
+//Stop update with any falsy value.
+core.variable1.autoupdate = false;
+
 ```
 
 The last known value can be retreived as a property (value) of the function.
