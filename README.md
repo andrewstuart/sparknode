@@ -37,6 +37,7 @@ The signature of the callback should be `function(err, data)`.
 core.brew('coffee', function(err, data) {
   //Do something
 });
+```
 
 ###Variables
 Each variable (exposed as functions) accepts a callback as its first parameter, with the same signature as above (err, data).
