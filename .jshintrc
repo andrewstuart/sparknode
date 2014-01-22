@@ -21,6 +21,10 @@
   "smarttabs": true,
   "predef": [
     "process",
-    "assert"
+    "beforeEach",
+    "afterEach",
+    "it",
+    "describe",
+    "expect"
   ]
 }

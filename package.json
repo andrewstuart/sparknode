@@ -23,5 +23,9 @@
   "homepage": "https://github.com/andrewstuart/Sparknode",
   "dependencies": {
     "lodash": "~2.4.1"
+  },
+  "devDependencies": {
+    "mocha": "~1.17.0",
+    "nock": "~0.27.1"
   }
 }
