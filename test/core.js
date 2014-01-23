@@ -81,12 +81,22 @@ describe('core constructor', function() {
     });
   });
 
-  it('should update the core\'s "connected" property', function(done) {
+  it('should update the core\'s meta properties', function(done) {
     a.on('connect', function () {
       a.delay(function() {
-        assert(a.connected === true, 'Connected property was not updated after variable return.');
+        assert(a.connected === true, '"connected" property was not updated after variable return.');
+        console.log(a.last_heard.toString());
+        assert(a.last_heard.toString() === new Date('2014-01-23T13:20:23.131Z').toString(), '"last_heard" property was not updated after variable return.');
+        assert(a.last_app === '', '"last_app" property was not updated after variable return.');
         done();
       });
+    });
+  });
+
+  it('should not expose the authtoken outside of closure', function (done) {
+    a.on('connect', function () {
+      assert(!a.authtoken, 'Authtoken was exposed.');
+      done();
     });
   });
 });
