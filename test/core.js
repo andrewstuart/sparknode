@@ -20,16 +20,38 @@ describe('core constructor', function() {
     a = new Core('foo', 'bar');
 
     spark = nock('https://api.spark.io').get('/v1/devices/bar').reply(200, {
-      id: '1234567890abcdef12345678',
+      id: 'bar',
       name: 'core1',
       variables: {
         delay: 'int32'
       },
       functions: myFuncs
     });
+
+    nock('https://api.spark.io').get('/v1/devices/bar/delay').reply(200, {
+      cmd: 'VarReturn',
+      name: 'delay',
+      result: 1000,
+      coreInfo: {
+        last_app: '',
+        last_heard: '2014-01-23T13:20:23.131Z',
+        connected: true,
+        deviceID: 'foo'
+      }
+    });
+
+    nock('https://api.spark.io').post('/v1/devices/bar/getdata', {args: 'foo'}).reply(200, {
+      id: 'bar',
+      name: 'bar',
+      last_app: null,
+      connected: true,
+      return_value: 10118
+    });
+
   });
 
   afterEach(function() {
+    assert(spark.isDone());
   });
 
   it('should add functions for each function returned by the server.', function(done) {
@@ -48,8 +70,23 @@ describe('core constructor', function() {
     });
   });
 
+  it('should add a value property to the variable if queried', function(done) {
+    a.on('connect', function() {
+      assert(a.delay.autoupdate !== undefined, 'Variable autoupdate property was not added.');
+      a.delay.autoupdate = 1000;
+      a.delay.on('update', function(value) {
+        assert(value === 1000, 'Variable did not return the proper value');
+        done();
+      });
+    });
+  });
 
+  it('should update the core\'s "connected" property', function(done) {
+    a.on('connect', function () {
+      a.delay(function() {
+        assert(a.connected === true, 'Connected property was not updated after variable return.');
+        done();
+      });
+    });
+  });
 });
-
-
-
