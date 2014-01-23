@@ -95,7 +95,7 @@ describe('core constructor', function() {
 
   it('should not expose the authtoken outside of closure', function (done) {
     a.on('connect', function () {
-      assert(!a.authtoken, 'Authtoken was exposed.');
+      assert(!a.authtoken, '"authtoken" was exposed.');
       done();
     });
   });
