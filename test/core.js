@@ -17,7 +17,6 @@ var myFuncs = [ 'getdata',
 describe('core constructor', function() {
 
   beforeEach(function() {
-    a = new Core('foo', 'bar');
 
     spark = nock('https://api.spark.io').get('/v1/devices/bar').reply(200, {
       id: 'bar',
@@ -48,6 +47,8 @@ describe('core constructor', function() {
       return_value: 10118
     });
 
+    a = new Core('foo', 'bar');
+
   });
 
   afterEach(function() {
@@ -70,12 +71,30 @@ describe('core constructor', function() {
     });
   });
 
-  it('should add a value property to the variable if queried', function(done) {
+  it('should add autoupdate and value.', function(done) {
     a.on('connect', function() {
       assert(a.delay.autoupdate !== undefined, 'Variable autoupdate property was not added.');
       a.delay.autoupdate = 1000;
       a.delay.on('update', function(value) {
         assert(value === 1000, 'Variable did not return the proper value');
+        assert(a.delay.value === 1000, 'value property was not set.');
+        a.delay.autoupdate = false;
+        done();
+      });
+    });
+  });
+
+  it('should not autoupdate twice.', function(done) {
+    a.on('connect', function () {
+      a.delay.autoupdate = 100;
+      a.delay.autoupdate = 99;
+      a.delay.autoupdate = 98;
+      a.delay.autoupdate = 97;
+      a.delay.autoupdate = 96;
+
+      a.delay.on('update', function(data) {
+        assert(data === 1000, 'autoupdate did not retreive data.');
+        a.delay.autoupdate = false;
         done();
       });
     });
@@ -85,7 +104,6 @@ describe('core constructor', function() {
     a.on('connect', function () {
       a.delay(function() {
         assert(a.connected === true, '"connected" property was not updated after variable return.');
-        console.log(a.last_heard.toString());
         assert(a.last_heard.toString() === new Date('2014-01-23T13:20:23.131Z').toString(), '"last_heard" property was not updated after variable return.');
         assert(a.last_app === '', '"last_app" property was not updated after variable return.');
         done();
@@ -98,5 +116,8 @@ describe('core constructor', function() {
       assert(!a.authtoken, '"authtoken" was exposed.');
       done();
     });
+  });
+
+  describe('auto update for variables', function() {
   });
 });
