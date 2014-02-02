@@ -144,7 +144,8 @@ Spark add will retreive any cores accessible via the given token. These are save
 Syntax is `spark add <token>`.
 
 ####var
-Retreive a variable from the spark cloud. Syntax is `spark var coreName varName`.
+Retreive a variable from the spark cloud. Syntax is `spark var coreName [varName]`. If no `varName` is included, the list of registered variables will be printed.
+
 Options include:
 
 -n Number of times to check the variable (--number)
@@ -154,22 +155,68 @@ Options include:
 -c Check continously at interval or 1 second. (will override -n) (--continuous)
 
 ####fn
-Execute a remote function and print the return value.  Syntax is `spark fn <coreName> <functionName> <argument>`.
+Execute a remote function and print the return value. If no `functionName` is included, the list of registered functions will be printed.
+
+Syntax is `spark fn <coreName> <functionName> <argument>`.
 
 ##CLI Examples
 
 ```bash
 #Go get all the cores.
-spark add 1234567890abcdef1234567890abcdef;
+spark add 1234567890abcdef1234567890abcdef
+
+#The following cores were found and saved: 
+#core1 1234425432363457d
+#core2 1212532454325acef
+
+spark fn core1
+
+#Functions available for core 'core1':
+#  brew
+#  digitalread
+#  digitalwrite
+#  analogread
 
 spark fn core1 brew coffee;
+#1
+
+spark fn core2
+#  digitalwrite
+
 spark fn core2 digitalwrite "A1,HIGH";
 
+spark var core1
+
+#Variables available for core 'core1':
+#  brewTime
+#  variable1
+
 spark var core1 brewTime;
+
+#  120000
+
+spark var core2
+
+#Variables available for core 'core2':
+#  coffeeStrength
+
 spark var -i 100 -n 5 core2 coffeeStrength;
+
+#100
+#100
+#98
+#99
+#96
 
 #My current personal favorite:
 spark var -ci 100 core1 variable1;
+
+#1
+#2
+#3
+#4
+#5
+#...
 ```
 
 
@@ -179,6 +226,6 @@ Future:
 
 An API for the server sent events will also be a high priority as soon as that cloud API comes out.
 
-I'd like to write a custom firmware that uses TCP directly. You're already using Node, so you have that option. It should be possible to write very powerful client-server code using something like this.
+I'd like to write a custom firmware that's CLI flashable and uses TCP directly for faster feedback. You're already using Node, so you have that option. It should be possible to write very powerful client-server code using something like this. I'd also like to keep it modular so it's useful on its own.
 
 I'm also thinking about writing a custom firmware that lets you add many more than 4 functions, directly from the CLI or even programmatically, using string parsing on the client side. I don't know about anyone else, but I don't need 64 characters of input very often, so I figured they'd be more useful this way. Check out the issues tracker to add feature requests and see some of the plans I have.
