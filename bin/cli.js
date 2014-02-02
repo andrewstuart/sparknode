@@ -39,7 +39,17 @@ function fn (core, fName, arg) {
     var myCore = new Core(config.byName[core]);
 
     myCore.on('connect', function() {
-      if(myCore.functions.indexOf(fName) > -1) {
+      //List off functions available.
+      if(!fName) {
+        if(myCore.functions.length) {
+          console.log('Functions available for core \'' + core + '\':');
+          _.each(myCore.functions, function(fn) {
+            console.log('  ' + fn);
+          });
+        } else {
+          console.log('No functions available for core \'' + core + '\'.');
+        }
+      } else if(myCore.functions.indexOf(fName) > -1) {
         myCore[fName](arg, function(err, data) {
           console.log(data);
         });
@@ -52,16 +62,16 @@ function fn (core, fName, arg) {
 
 spark.version(version);
 
-spark.command('fn <core> <function> [argument]')
-  .description('Run a spark core function with argument')
-  .usage('spark fn <core> <function> <argument>')
+spark.command('fn <core> [function] [argument]')
+  .description('Run a spark core function with argument or get a list of available functions.')
+  .usage('spark fn <core> [function] [argument]')
   .action(fn);
 
 
 //Variable
-var varCommand = spark.command('var <core> <variable>')
-  .description('Get a spark core variable')
-  .usage('spark var <core> <variable>')
+var varCommand = spark.command('var <core> [variable]')
+  .description('Get a spark core variable or list of available variables')
+  .usage('spark var <core> [variable]')
   .option('-n, --number <n>', 'Get an update n times')
   .option('-c, --continuous', 'Get continuous updates')
   .option('-i, --interval <i>', 'Interval, i,  in milliseconds.')
@@ -78,11 +88,21 @@ function variable (core, varName) {
 
     //When connected
     myCore.on('connect', function() {
-      if(!myCore.variables[varName]) {
-        return console.log('The variable you\'ve tried to get is not registered with the spark Cloud');
-      }
+      if(!varName) {
+        if(!_.keys(myCore.variables).length) {
+          console.log('No variables available for core \'' + core + '\'.');
+        } else {
+          _.each(myCore.variables, function(val, key) {
+            console.log('Variables available for core \'' + core + '\':');
+            console.log('  ' + key);
+          });
+        }
 
-      if(varCommand.number || varCommand.continuous) {
+      } else if(!myCore.variables[varName]) {
+
+        return console.log('The variable you\'ve tried to get is not registered with the spark Cloud');
+
+      } else if(varCommand.number || varCommand.continuous) {
 
         //Set autoupdate or default it.
         myCore[varName].autoupdate = varCommand.interval || 1000;
