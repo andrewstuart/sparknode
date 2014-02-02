@@ -75,7 +75,7 @@ describe('core constructor', function() {
     a.on('connect', function() {
       assert(a.delay.autoupdate !== undefined, 'Variable autoupdate property was not added.');
       a.delay.autoupdate = 1000;
-      a.delay.on('update', function(value) {
+      a.delay.on('update', function(err, value) {
         assert(value === 1000, 'Variable did not return the proper value');
         assert(a.delay.value === 1000, 'value property was not set.');
         a.delay.autoupdate = false;
@@ -92,7 +92,7 @@ describe('core constructor', function() {
       a.delay.autoupdate = 97;
       a.delay.autoupdate = 96;
 
-      a.delay.on('update', function(data) {
+      a.delay.on('update', function(err, data) {
         assert(data === 1000, 'autoupdate did not retreive data.');
         a.delay.autoupdate = false;
         done();

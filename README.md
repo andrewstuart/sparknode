@@ -4,17 +4,50 @@ This package was built with the purpose of allowing cross-platform communication
 
 Firmware functions and variables are added automatically based on the spark API's HATEOS responses.
 
-###[Example](#example)
+###[Example](#example-1)
 
-#Constructors
+#Exports
 1. [Core](#core)
 2. [Collection](#collection)
 
-##Common
-###Events
-The main event you care about is connect.  This is fired when the cloud has returned and all variables and functions should be registered on your instance. This is true for both Core and Collection.
+#CLI
 
-You can also choose to handle an 'error' event, which will be thrown upon any error that does not happen in the context of a callback.
+If installed globally (`npm install -g sparknode`), sparknode will give you a command line interface mostly useful for debugging, but I suppose it could be used for other scripting applications as well.
+
+The most important command is probably `spark -h`, as it lets you discover the functionality directly from the command line.
+
+As for the rest, right now there are three main commands under the main `spark` command: `add`, `fn`, and `var`. Each of these also have help generated with the -h switch.
+
+####add
+Spark add will retreive any cores accessible via the given token. These are saved at your home directory under .sparkrc.
+
+Syntax is `spark add <token>`.
+
+####var
+Retreive a variable from the spark cloud. Syntax is `spark var coreName varName`.
+Options include: 
+-n Number of times to check the variable (--number)
+-i Interval, in seconds, between checks (--interval)
+-c Check continously at interval or 1 second. (will override -n) (--continuous)
+
+####fn
+Execute a remote function and print the return value.  Syntax is `spark fn <coreName> <functionName> <argument>`.
+
+####CLI Examples
+
+```bash
+#Go get all the cores.
+spark add 1234567890abcdef1234567890abcdef;
+
+spark fn core1 brew coffee;
+spark fn core2 digitalwrite "A1,HIGH";
+
+spark var core1 brewTime;
+spark var -i.1 -n 5 core2 coffeeStrength;
+
+#My current personal favorite:
+spark var -ci .1 core1 variable1;
+```
 
 ##Core
 Create a new instance of a spark core. First parameter is authtoken, second parameter is deviceId.
@@ -28,7 +61,7 @@ An object can also be used as the first parameter, as follows:
 }
 ```
 
-###Functions
+###Cloud Functions
 Each function accepts a string as the parameter, and a callback to be called upon return.
 
 The signature of the callback should be `function(err, data)`.
@@ -39,7 +72,7 @@ core.brew('coffee', function(err, data) {
 });
 ```
 
-###Variables
+###Cloud Variables
 Each variable (exposed as functions) accepts a callback as its first parameter, with the same signature as above (err, data).
 
 ```javascript
@@ -84,7 +117,7 @@ collection.core1.doFunction('foo', function(err, data) {
 });
 ```
 
-The default behavior is to cache the output of the cloud api for the initial call in a JSON object at your project root.  If you'd like to override this behavior, you can pass an options object (optional, of course) to the constructor.
+The default behavior is to cache the output of the cloud api for all HATEOS calls in a JSON object at your project root.  If you'd like to override this behavior, you can pass an options object (optional, of course) to the constructor.
 
 ```javascript
 var collection = new Collection(myAuthToken, { skipCache: true })
@@ -141,10 +174,8 @@ I'm also tracking some of the data that comes back from the spark cloud on the c
 
 Future:
 
-I have several ideas I'd like to implement such a CLI for quick access.
-```bash
-sparknode core2 brew "coffee"
-```
 An API for the server sent events will also be a high priority as soon as that cloud API comes out.
+
+I'd like to write a custom firmware that uses TCP directly. You're already using Node, so you have that option. It should be possible to write very powerful client-server code using something like this.
 
 I'm also thinking about writing a custom firmware that lets you add many more than 4 functions, directly from the CLI or even programmatically, using string parsing on the client side. I don't know about anyone else, but I don't need 64 characters of input very often, so I figured they'd be more useful this way. Check out the issues tracker to add feature requests and see some of the plans I have.

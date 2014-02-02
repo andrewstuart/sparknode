@@ -64,6 +64,7 @@ var varCommand = spark.command('var <core> <variable>')
 //Variable
 function variable (core, varName) {
   var numCompletions = 0;
+  console.log(varCommand);
 
   checkConfig(function() {
     //Defaults
@@ -83,7 +84,10 @@ function variable (core, varName) {
         myCore[varName].autoupdate = varCommand.interval * 1000 || 1000;
 
         //Listen and log, stopping when necessary.
-        myCore[varName].on('update', function(data) {
+        myCore[varName].on('update', function(err, data) {
+          if(err) {
+            console.log('ERROR: ', err);
+          }
           if(varCommand.continuous || numCompletions++ < varCommand.number) {
             console.log(data);
           } else {
