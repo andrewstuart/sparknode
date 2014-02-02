@@ -145,11 +145,10 @@ Syntax is `spark add <token>`.
 
 ####var
 Retreive a variable from the spark cloud. Syntax is `spark var coreName varName`.
-Options include: 
-
--n Number of times to check the variable (--number)
--i Interval, in milliseconds, between checks (--interval)
--c Check continously at interval or 1 second. (will override -n) (--continuous)
+Options include:\n
+-n Number of times to check the variable (--number)\n
+-i Interval, in milliseconds, between checks (--interval)\n
+-c Check continously at interval or 1 second. (will override -n) (--continuous)\n
 
 ####fn
 Execute a remote function and print the return value.  Syntax is `spark fn <coreName> <functionName> <argument>`.
