@@ -3,7 +3,7 @@
 This package was built with the purpose of allowing cross-platform communication from node.js to a [sparkcore](http://www.spark.io) through the [spark Cloud API](http://docs.spark.io/#/api).
 Firmware functions and variables are added automatically based on the spark API's HATEOS responses.
 
-There are two main components: The module and the [CLI](#CLI).
+There are two main components: The module and the [CLI](#cli).
 
 ###[Example](#example-1)
 
