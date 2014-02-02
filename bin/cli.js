@@ -6,6 +6,7 @@ var spark = require('commander')
   , version = pkg.version
   , Core = require('../lib/core.js')
   , Collection = require('../lib/collection.js')
+  , _ = require('lodash')._
   , fs = require('fs');
 
 var config;
@@ -68,7 +69,6 @@ var varCommand = spark.command('var <core> <variable>')
   
 function variable (core, varName) {
   var numCompletions = 0;
-  console.log(varCommand);
 
   checkConfig(function() {
     //Defaults
@@ -121,7 +121,10 @@ function add (newToken, id) {
   }
 
   result.on('connect', function() {
-    console.log(result);
+    console.log('The following cores were found and saved: ');
+    _.each(result._cores, function (core) {
+      console.log(core.name, core.id);
+    });
   });
 
   result.on('error', function(err) {
