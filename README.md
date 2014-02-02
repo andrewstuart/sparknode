@@ -146,6 +146,7 @@ Syntax is `spark add <token>`.
 ####var
 Retreive a variable from the spark cloud. Syntax is `spark var coreName varName`.
 Options include: 
+
 -n Number of times to check the variable (--number)
 -i Interval, in milliseconds, between checks (--interval)
 -c Check continously at interval or 1 second. (will override -n) (--continuous)
