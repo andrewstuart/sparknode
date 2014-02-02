@@ -147,7 +147,7 @@ Syntax is `spark add <token>`.
 Retreive a variable from the spark cloud. Syntax is `spark var coreName varName`.
 Options include: 
 -n Number of times to check the variable (--number)
--i Interval, in seconds, between checks (--interval)
+-i Interval, in milliseconds, between checks (--interval)
 -c Check continously at interval or 1 second. (will override -n) (--continuous)
 
 ####fn
@@ -163,10 +163,10 @@ spark fn core1 brew coffee;
 spark fn core2 digitalwrite "A1,HIGH";
 
 spark var core1 brewTime;
-spark var -i.1 -n 5 core2 coffeeStrength;
+spark var -i 100 -n 5 core2 coffeeStrength;
 
 #My current personal favorite:
-spark var -ci .1 core1 variable1;
+spark var -ci 100 core1 variable1;
 ```
 
 
