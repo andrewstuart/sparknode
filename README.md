@@ -1,64 +1,28 @@
 #About
 
 This package was built with the purpose of allowing cross-platform communication from node.js to a [sparkcore](http://www.spark.io) through the [spark Cloud API](http://docs.spark.io/#/api).
-
 Firmware functions and variables are added automatically based on the spark API's HATEOS responses.
+
+There are two main components: The module and the [CLI](#CLI).
 
 ###[Example](#example-1)
 
-#Exports
+#Constructors
 1. [Core](#core)
 2. [Collection](#collection)
-
-#CLI
-
-If installed globally (`npm install -g sparknode`), sparknode will give you a command line interface mostly useful for debugging, but I suppose it could be used for other scripting applications as well.
-
-The most important command is probably `spark -h`, as it lets you discover the functionality directly from the command line.
-
-As for the rest, right now there are three main commands under the main `spark` command: `add`, `fn`, and `var`. Each of these also have help generated with the -h switch.
-
-####add
-Spark add will retreive any cores accessible via the given token. These are saved at your home directory under .sparkrc.
-
-Syntax is `spark add <token>`.
-
-####var
-Retreive a variable from the spark cloud. Syntax is `spark var coreName varName`.
-Options include: 
--n Number of times to check the variable (--number)
--i Interval, in seconds, between checks (--interval)
--c Check continously at interval or 1 second. (will override -n) (--continuous)
-
-####fn
-Execute a remote function and print the return value.  Syntax is `spark fn <coreName> <functionName> <argument>`.
-
-####CLI Examples
-
-```bash
-#Go get all the cores.
-spark add 1234567890abcdef1234567890abcdef;
-
-spark fn core1 brew coffee;
-spark fn core2 digitalwrite "A1,HIGH";
-
-spark var core1 brewTime;
-spark var -i.1 -n 5 core2 coffeeStrength;
-
-#My current personal favorite:
-spark var -ci .1 core1 variable1;
-```
 
 ##Core
 Create a new instance of a spark core. First parameter is authtoken, second parameter is deviceId.
 
 An object can also be used as the first parameter, as follows:
 
-```js
-{
+```javascript
+var spark = require('sparknode');
+
+var core = new Core({
   authtoken: <Your Auth_Token>,
   id: <Your device id>
-}
+});
 ```
 
 ###Cloud Functions
@@ -68,7 +32,7 @@ The signature of the callback should be `function(err, data)`.
 
 ```javascript
 core.brew('coffee', function(err, data) {
-  //Do something
+  console.log(data);
 });
 ```
 
@@ -83,7 +47,7 @@ core.variable1(function(err, data) {
 
 Variables also have a property, autoupdate, that can be set with a timeout in milliseconds between each call, or true to use the default 5 second interval or false to cancel autoupdates. Setting this variable will also start the update cycle.
 
-When being used with autoupdate, the variable will fire an 'update' event each time a response is received from the server.
+When being used with autoupdate, the variable (not the core) will fire an `'update'` event each time a response is received from the server.
 
 ```javascript
 //Start autoupdate
@@ -166,9 +130,45 @@ randomCore.on('connect', function() {
 });
 ```
 
-This library should also work cross platform as it doesn't rely on curl behind the scenes.  I'm hoping it also makes it much easier for me to wire custom functions to a webapp.
+#CLI
 
-I'm also tracking some of the data that comes back from the spark cloud on the core objects themselves, such as `online`, though I'm not sure how useful that will end up being.
+If installed globally via `npm install -g sparknode`, sparknode will give you a command line interface mostly useful for debugging, but I suppose it could be used for other scripting applications as well.
+
+The most important command is probably `spark -h`, as it lets you discover the functionality directly from the command line.
+
+As for the rest, right now there are three main commands under the main `spark` command: `add`, `fn`, and `var`. Each of these also have help generated with the -h switch.
+
+####add
+Spark add will retreive any cores accessible via the given token. These are saved at your home directory under .sparkrc.
+
+Syntax is `spark add <token>`.
+
+####var
+Retreive a variable from the spark cloud. Syntax is `spark var coreName varName`.
+Options include: 
+-n Number of times to check the variable (--number)
+-i Interval, in seconds, between checks (--interval)
+-c Check continously at interval or 1 second. (will override -n) (--continuous)
+
+####fn
+Execute a remote function and print the return value.  Syntax is `spark fn <coreName> <functionName> <argument>`.
+
+##CLI Examples
+
+```bash
+#Go get all the cores.
+spark add 1234567890abcdef1234567890abcdef;
+
+spark fn core1 brew coffee;
+spark fn core2 digitalwrite "A1,HIGH";
+
+spark var core1 brewTime;
+spark var -i.1 -n 5 core2 coffeeStrength;
+
+#My current personal favorite:
+spark var -ci .1 core1 variable1;
+```
+
 
 ##Future
 

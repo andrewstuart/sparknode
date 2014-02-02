@@ -12,7 +12,7 @@ var config;
 
 //http://stackoverflow.com/questions/9080085/node-js-find-home-directory-in-platform-agnostic-way
 function getUserHome() {
-  return process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
+  return process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME'];
 }
 
 var rcFile = getUserHome() + '/.sparkrc';
@@ -32,10 +32,6 @@ function checkConfig (callback) {
 }
 
 
-var fnCmd = spark.command('fn <core> <fn> [arg]')
-  .description('Run a spark core function with argument')
-  .action(fn);
-
 //Function
 function fn (core, fName, arg) {
   checkConfig(function() {
@@ -53,15 +49,23 @@ function fn (core, fName, arg) {
   });
 }
 
+spark.version(version);
 
+spark.command('fn <core> <function> [argument]')
+  .description('Run a spark core function with argument')
+  .usage('spark fn <core> <function> <argument>')
+  .action(fn);
+
+
+//Variable
 var varCommand = spark.command('var <core> <variable>')
   .description('Get a spark core variable')
+  .usage('spark var <core> <variable>')
   .option('-n, --number <n>', 'Get an update n times')
   .option('-c, --continuous', 'Get continuous updates')
-  .option('-i, --interval <i>', 'Interval, i,  in seconds.')
+  .option('-i, --interval <i>', 'Interval, i,  in milliseconds.')
   .action(variable);
   
-//Variable
 function variable (core, varName) {
   var numCompletions = 0;
   console.log(varCommand);
@@ -76,12 +80,12 @@ function variable (core, varName) {
     myCore.on('connect', function() {
       if(!myCore.variables[varName]) {
         return console.log('The variable you\'ve tried to get is not registered with the spark Cloud');
-      };
+      }
 
       if(varCommand.number || varCommand.continuous) {
 
-        //Set autoupdate
-        myCore[varName].autoupdate = varCommand.interval * 1000 || 1000;
+        //Set autoupdate or default it.
+        myCore[varName].autoupdate = varCommand.interval || 1000;
 
         //Listen and log, stopping when necessary.
         myCore[varName].on('update', function(err, data) {
