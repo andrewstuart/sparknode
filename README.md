@@ -159,17 +159,58 @@ Execute a remote function and print the return value. If no `functionName` is in
 
 Syntax is `spark fn <coreName> <functionName> <argument>`.
 
-##CLI Examples
+####ls
+Get either a list of cores and their functions or a single core.
+
+Syntax: `spark ls [coreName]`
+
+Output Example:
 
 ```bash
+spark ls
+Core: core1 (1234567890abcdef12345678)
+
+Functions: 
+brew
+digitalread
+digitalwrite
+analogread
+
+Variables: 
+delay
+
+Connected: true
+
+-----------
+
+Core: core2 (1234567890abcdef12345679)
+
+Functions: 
+getdata
+digitalread
+digitalwrite
+analogread
+
+Variables: 
+delay
+
+Connected: true
+
+-----------
+
+```
+
+##CLI Examples
+
+  ```bash
 #Go get all the cores.
-spark add 1234567890abcdef1234567890abcdef
+  spark add 1234567890abcdef1234567890abcdef
 
 #The following cores were found and saved: 
 #core1 1234425432363457d
 #core2 1212532454325acef
 
-spark fn core1
+  spark fn core1
 
 #Functions available for core 'core1':
 #  brew
@@ -177,30 +218,30 @@ spark fn core1
 #  digitalwrite
 #  analogread
 
-spark fn core1 brew coffee;
+  spark fn core1 brew coffee;
 #1
 
-spark fn core2
+  spark fn core2
 #  digitalwrite
 
-spark fn core2 digitalwrite "A1,HIGH";
+  spark fn core2 digitalwrite "A1,HIGH";
 
-spark var core1
+  spark var core1
 
 #Variables available for core 'core1':
 #  brewTime
 #  variable1
 
-spark var core1 brewTime;
+  spark var core1 brewTime;
 
 #  120000
 
-spark var core2
+  spark var core2
 
 #Variables available for core 'core2':
 #  coffeeStrength
 
-spark var -i 100 -n 5 core2 coffeeStrength;
+  spark var -i 100 -n 5 core2 coffeeStrength;
 
 #100
 #100
@@ -209,7 +250,7 @@ spark var -i 100 -n 5 core2 coffeeStrength;
 #96
 
 #My current personal favorite:
-spark var -ci 100 core1 variable1;
+  spark var -ci 100 core1 variable1;
 
 #1
 #2
@@ -217,15 +258,15 @@ spark var -ci 100 core1 variable1;
 #4
 #5
 #...
-```
+  ```
 
 
 ##Future
 
-Future:
+  Future:
 
-An API for the server sent events will also be a high priority as soon as that cloud API comes out.
+  An API for the server sent events will also be a high priority as soon as that cloud API comes out.
 
-I'd like to write a custom firmware that's CLI flashable and uses TCP directly for faster feedback. You're already using Node, so you have that option. It should be possible to write very powerful client-server code using something like this. I'd also like to keep it modular so it's useful on its own.
+  I'd like to write a custom firmware that's CLI flashable and uses TCP directly for faster feedback. You're already using Node, so you have that option. It should be possible to write very powerful client-server code using something like this. I'd also like to keep it modular so it's useful on its own.
 
-I'm also thinking about writing a custom firmware that lets you add many more than 4 functions, directly from the CLI or even programmatically, using string parsing on the client side. I don't know about anyone else, but I don't need 64 characters of input very often, so I figured they'd be more useful this way. Check out the issues tracker to add feature requests and see some of the plans I have.
+  I'm also thinking about writing a custom firmware that lets you add many more than 4 functions, directly from the CLI or even programmatically, using string parsing on the client side. I don't know about anyone else, but I don't need 64 characters of input very often, so I figured they'd be more useful this way. Check out the issues tracker to add feature requests and see some of the plans I have.
