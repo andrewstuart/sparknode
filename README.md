@@ -144,7 +144,9 @@ Spark add will retreive any cores accessible via the given token. These are save
 Syntax is `spark add <token>`.
 
 ####var
-Retreive a variable from the spark cloud. Syntax is `spark var coreName [varName]`. If no `varName` is included, the list of registered variables will be printed.
+Retreive a variable from the spark cloud. 
+
+Syntax is `spark var coreName [varName]`. If no `varName` is included, the list of registered variables will be printed.
 
 Options include:
 
