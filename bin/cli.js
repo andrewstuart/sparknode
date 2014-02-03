@@ -7,9 +7,9 @@ var spark = require('commander')
   , Core = require('../lib/core.js')
   , Collection = require('../lib/collection.js')
   , _ = require('lodash')._
+  , cache = require('../lib/common').cache
   , fs = require('fs');
 
-var config;
 
 //http://stackoverflow.com/questions/9080085/node-js-find-home-directory-in-platform-agnostic-way
 function getUserHome() {
@@ -19,16 +19,13 @@ function getUserHome() {
 var rcFile = getUserHome() + '/.sparkrc';
 
 function checkConfig (callback) {
-  fs.exists(rcFile, function(exists) {
-    if(exists) {
-      fs.readFile(rcFile, function(err, data) {
-        config = JSON.parse(data);
-        callback(config);
-      });
-    } else {
+  cache.fileName = rcFile;
+  cache.read(function(err) {
+    if(err) {
       console.log('No devices have been added. Please use \'spark add\' first.');
-      process.exit();
+      return;
     }
+    callback(cache);
   });
 }
 
@@ -36,7 +33,7 @@ function checkConfig (callback) {
 //Function
 function fn (core, fName, arg) {
   checkConfig(function() {
-    var myCore = new Core(config.byName[core]);
+    var myCore = new Core(cache.byName[core]);
 
     myCore.on('connect', function() {
       //List off functions available.
@@ -84,7 +81,7 @@ function variable (core, varName) {
     //Defaults
 
     //Get a new core.
-    var myCore = new Core(config.byName[core]);
+    var myCore = new Core(cache.byName[core]);
 
     //When connected
     myCore.on('connect', function() {
@@ -155,5 +152,38 @@ function add (newToken, id) {
 spark.command('add <token> [id]')
 .description('Get either a spark collection or a single device')
 .action(add);
+
+//Write details of the given core to output.
+function logCore(core) {
+  console.log('Core: ' + core.name + ' (' + core.id + ')');
+  console.log('\nFunctions: ');
+  _.each(core.functions, function(fun) {
+    console.log('  ' + fun);
+  });
+  console.log('\nVariables: ');
+  _.each(core.variables, function(type, varName) {
+    console.log('  ' + varName);
+  });
+  console.log('\nConnected: ' + core.connected);
+}
+
+//Show a list of cores or details for a given core.
+function ls (coreName) {
+  checkConfig(function() {
+    if(coreName && cache.byName[coreName]) {
+
+      logCore(cache.byName[coreName]);
+    } else {
+      _.each(cache.byName, function(core) {
+        logCore(core);
+        console.log('\n-----------\n');
+      });
+    }
+  });
+}
+
+spark.command('ls [coreName]')
+.description('Get a list of variables and functions, optionally for only one core.')
+.action(ls);
 
 spark.parse(process.argv);
