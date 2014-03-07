@@ -1,9 +1,10 @@
 #About
 
-This package was built with the purpose of allowing cross-platform communication from node.js to a [sparkcore](http://www.spark.io) through the [spark Cloud API](http://docs.spark.io/#/api).
-Firmware functions and variables are added automatically based on the spark API's HATEOS responses.
+Sparknode is built to make it easier for your server-side (or node-webkit) code to communicate with the spark cloud, so that you can do more with your core with less overhead.
 
-There are two main components: The module and the [CLI](#cli).
+It's designed to be hopefully as easy to use as possible with a low barrier to entry.  All you need to do to get started is provide your access token and sparknode, along with the [Spark Cloud](http://docs.spark.io/#/api), will set everything up for you.
+
+Your cores become part of a collection, accessible by name, and will have their Cloud functions and variables accessible as methods on the 'Core' objects.
 
 ###[Example](#example-1)
 
