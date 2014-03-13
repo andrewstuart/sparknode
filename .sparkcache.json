@@ -1,1 +1,0 @@
-[{"id":"bar","name":"core1","variables":{"delay":"int32"},"functions":["getdata","digitalread","digitalwrite","analogread"]}]
