@@ -173,6 +173,33 @@ Execute a remote function and print the return value. If no `functionName` is in
 
 Syntax is `spark fn <coreName> <functionName> <argument>`.
 
+####events
+
+Syntax: `spark events [coreName]`
+
+Print a list of events coming from the spark cloud. If a coreName is supplied, then the events are limited to that core's events. Press ctrl-c to interrupt, as usual.
+
+Options: 
+
+-p Show a list of public events.
+-n Only search for events with a specific name.
+
+```bash
+spark events -p
+
+{ data: 
+  { data: 'course',
+    ttl: '60',
+    published_at: '2014-03-13T10:42:23.157Z',
+    coreid: '48ff69065067555019392287'
+  },
+  event: 'motion-detected2' 
+}
+...
+
+#I have a hard time believing mr. 48ff69065067555019392287 is seeing motion every single second. amirite?
+```
+
 ####ls
 Get either a list of cores and their functions or a single core.
 
