@@ -35,6 +35,12 @@ core.on('coffeeBrewed', function(info) {
   console.log(info.data);
   //send an email with the number of cups remaining.
 });
+
+collection.on('event', function(eventInfo) {
+  database.save(eventInfo);
+  //All events for all cores get logged to the database.
+  //API for public events coming shortly.
+});
 ```
 
 ###Cloud Functions
