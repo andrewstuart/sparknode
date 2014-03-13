@@ -7,6 +7,7 @@ var spark = require('commander')
   , Core = require('../lib/core.js')
   , Collection = require('../lib/collection.js')
   , _ = require('lodash')._
+  , getEvents = require('../lib/common').getEvents
   , cache = require('../lib/common').cache
   , fs = require('fs');
 
@@ -185,5 +186,24 @@ function ls (coreName) {
 spark.command('ls [coreName]')
 .description('Get a list of variables and functions, optionally for only one core.')
 .action(ls);
+
+var eventsCommand = spark.command('events [coreName]')
+.description('Get a list of events as they happen.')
+.option('-p, --public', 'Get a list of public events')
+.option('-n, --name', 'Specify the name of the event')
+.action(event);
+
+function event (coreName) {
+  checkConfig(function() {
+    var opts = {
+      pub: eventsCommand['public'],
+      coreName: coreName,
+      eventName: eventsCommand.name,
+      accessToken: cache.cores[0].accessToken
+    };
+
+    getEvents(opts).on('event', function(e) {console.log(e);});
+  });
+}
 
 spark.parse(process.argv);

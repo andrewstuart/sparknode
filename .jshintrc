@@ -25,6 +25,9 @@
     "afterEach",
     "it",
     "describe",
-    "expect"
+    "expect",
+    "exports",
+    "_",
+    "console"
   ]
 }
