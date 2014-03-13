@@ -26,6 +26,17 @@ var core = new Core({
 });
 ```
 
+###Cloud Events
+Each event is accessible to your core (or collection) through the builtin events.  You can simply call `core.on(eventName, function handler(eventData) {/*do something;*/});` to register your handler on the event.  If 'event' is passed to the `on` function as the name, then the handler will be called for every event with an `{event: 'eventName', data: {/*eventData*/}}` object.
+
+```javascript
+core.on('coffeeBrewed', function(info) {
+  console.log(info);
+  console.log(info.data);
+  //send an email with the number of cups remaining.
+});
+```
+
 ###Cloud Functions
 Each function accepts a string as the parameter, and a callback to be called upon return.
 
@@ -267,8 +278,6 @@ Connected: true
 ##Future
 
   Future:
-
-  An API for the server sent events will also be a high priority as soon as that cloud API comes out.
 
   I'd like to write a custom firmware that's CLI flashable and uses TCP directly for faster feedback. You're already using Node, so you have that option. It should be possible to write very powerful client-server code using something like this. I'd also like to keep it modular so it's useful on its own.
 
