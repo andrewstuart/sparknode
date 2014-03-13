@@ -34,7 +34,7 @@ function checkConfig (callback) {
 //Function
 function fn (core, fName, arg) {
   checkConfig(function() {
-    var myCore = new Core(cache.byName[core]);
+    var myCore = new Core(cache.byName[core], null, {skipEvents: true});
 
     myCore.on('connect', function() {
       //List off functions available.
@@ -82,7 +82,7 @@ function variable (core, varName) {
     //Defaults
 
     //Get a new core.
-    var myCore = new Core(cache.byName[core]);
+    var myCore = new Core(cache.byName[core], null, {skipEvents: true});
 
     //When connected
     myCore.on('connect', function() {
@@ -133,9 +133,9 @@ function add (newToken, id) {
   var result;
 
   if(id) {
-    result = new Core(newToken, id);
+    result = new Core(newToken, id, {skipEvents: true});
   } else {
-    result = new Collection(newToken, {cacheFile: rcFile});
+    result = new Collection(newToken, {cacheFile: rcFile, skipEvents: true});
   }
 
   result.on('connect', function() {
