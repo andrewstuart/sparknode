@@ -20,7 +20,7 @@ An object can also be used as the first parameter, as follows:
 ```javascript
 var spark = require('sparknode');
 
-var core = new Core({
+var core = new spark.Core({
   authtoken: <Your Auth_Token>,
   id: <Your device id>
 });
