@@ -190,7 +190,7 @@ spark.command('ls [coreName]')
 var eventsCommand = spark.command('events [coreName]')
 .description('Get a list of events as they happen.')
 .option('-p, --public', 'Get a list of public events')
-.option('-n, --name', 'Specify the name of the event')
+.option('-n, --name <name>', 'Specify the name of the event')
 .action(event);
 
 function event (coreName) {
