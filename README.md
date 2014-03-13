@@ -4,7 +4,7 @@ Sparknode is built to make it easier for your server-side (or node-webkit) code 
 
 It's designed to be hopefully as easy to use as possible with a low barrier to entry.  All you need to do to get started is provide your access token and sparknode, along with the [Spark Cloud](http://docs.spark.io/#/api), will set everything up for you.
 
-Your cores become part of a collection, accessible by name, and will have their Cloud functions and variables accessible as methods on the 'Core' objects.
+Your cores become part of a collection, accessible by name, and will have their Cloud functions and variables accessible as methods on the 'Core' objects. Hooking into Spark Cloud events is as easy as attaching a listener via the 'on' method for your core. Your callback will be called each time that event, or every event if you pass 'event' as the event name, is fired.
 
 ###[Example](#example-1)
 
