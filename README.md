@@ -209,6 +209,8 @@ spark events -p
 ####ls
 Get either a list of cores and their functions or a single core.
 
+You can optionally pull an update first with the `-u` option in case you want to list new functionality.
+
 Syntax: `spark ls [coreName]`
 
 Output Example:
