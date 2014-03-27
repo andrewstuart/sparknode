@@ -168,24 +168,36 @@ function logCore(core) {
   console.log('\nConnected: ' + core.connected);
 }
 
-//Show a list of cores or details for a given core.
-function ls (coreName) {
+var lsCommand = spark.command('ls [coreName]')
+.description('Get a list of variables and functions, optionally for only one core.')
+.option('-u, --update', 'Update from the spark cloud first.')
+.action( function ls(coreName) {
+  //Show a list of cores or details for a given core.
   checkConfig(function() {
-    if(coreName && cache.byName[coreName]) {
+    function printCores () {
+      if(coreName && cache.byName[coreName]) {
 
-      logCore(cache.byName[coreName]);
+        logCore(cache.byName[coreName]);
+      } else {
+        _.each(cache.byName, function(core) {
+          logCore(core);
+          console.log('\n-----------\n');
+        });
+      }
+    }
+
+    if(lsCommand.update) {
+      
+      var newToken = _.find(cache.byName, function() {return true}).accessToken;
+
+      var result = new Collection(newToken, {cacheFile: rcFile, skipEvents: true});
+
+      result.on('connect', printCores);
     } else {
-      _.each(cache.byName, function(core) {
-        logCore(core);
-        console.log('\n-----------\n');
-      });
+      printCores();
     }
   });
-}
-
-spark.command('ls [coreName]')
-.description('Get a list of variables and functions, optionally for only one core.')
-.action(ls);
+});
 
 var eventsCommand = spark.command('events [coreName]')
 .description('Get a list of events as they happen.')
