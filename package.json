@@ -30,6 +30,6 @@
     "nock": "~0.27.1"
   },
   "bin": {
-    "spark": "./bin/cli.js"
+    "sn": "./bin/cli.js"
   }
 }
