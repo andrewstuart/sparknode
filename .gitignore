@@ -3,3 +3,4 @@
 node_modules
 .npmignore
 .sparkcache.json
+npm-debug.log
