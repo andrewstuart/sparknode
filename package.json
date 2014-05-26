@@ -1,6 +1,6 @@
 {
   "name": "sparknode",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "Interface with a spark core through the spark.io cloud api.",
   "main": "index.js",
   "repository": {
