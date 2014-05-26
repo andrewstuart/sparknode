@@ -152,19 +152,19 @@ randomCore.on('connect', function() {
 
 If installed globally via `npm install -g sparknode`, sparknode will give you a command line interface mostly useful for debugging, but I suppose it could be used for other scripting applications as well.
 
-The most important command is probably `spark -h`, as it lets you discover the functionality directly from the command line.
+The most important command is probably `sn -h`, as it lets you discover the functionality directly from the command line.
 
-As for the rest, right now there are three main commands under the main `spark` command: `add`, `fn`, and `var`. Each of these also have help generated with the -h switch.
+As for the rest, right now there are three main commands under the main `sn` command: `add`, `fn`, and `var`. Each of these also have help generated with the -h switch.
 
 ####add
 Spark add will retreive any cores accessible via the given token. These are saved at your home directory under .sparkrc.
 
-Syntax is `spark add <token>`.
+Syntax is `sn add <token>`.
 
 ####var
 Retreive a variable from the spark cloud. 
 
-Syntax is `spark var coreName [varName]`. If no `varName` is included, the list of registered variables will be printed.
+Syntax is `sn var coreName [varName]`. If no `varName` is included, the list of registered variables will be printed.
 
 Options include:
 
@@ -177,11 +177,11 @@ Options include:
 ####fn
 Execute a remote function and print the return value. If no `functionName` is included, the list of registered functions will be printed.
 
-Syntax is `spark fn <coreName> <functionName> <argument>`.
+Syntax is `sn fn <coreName> <functionName> <argument>`.
 
 ####events
 
-Syntax: `spark events [coreName]`
+Syntax: `sn events [coreName]`
 
 Print a list of events coming from the spark cloud. If a coreName is supplied, then the events are limited to that core's events. Press ctrl-c to interrupt, as usual.
 
@@ -191,7 +191,7 @@ Options:
 -n Only search for events with a specific name.
 
 ```bash
-spark events -p
+sn events -p
 
 { data: 
   { data: 'course',
@@ -211,12 +211,12 @@ Get either a list of cores and their functions or a single core.
 
 You can optionally pull an update first with the `-u` option in case you want to list new functionality.
 
-Syntax: `spark ls [coreName]`
+Syntax: `sn ls [coreName]`
 
 Output Example:
 
 ```bash
-spark ls
+sn ls
 Core: core1 (1234567890abcdef12345678)
 
 Functions: 
@@ -253,13 +253,13 @@ Connected: true
 
   ```bash
 #Go get all the cores.
-  spark add 1234567890abcdef1234567890abcdef
+  sn add 1234567890abcdef1234567890abcdef
 
 #The following cores were found and saved: 
 #core1 1234425432363457d
 #core2 1212532454325acef
 
-  spark fn core1
+  sn fn core1
 
 #Functions available for core 'core1':
 #  brew
@@ -267,30 +267,30 @@ Connected: true
 #  digitalwrite
 #  analogread
 
-  spark fn core1 brew coffee;
+  sn fn core1 brew coffee;
 #1
 
-  spark fn core2
+  sn fn core2
 #  digitalwrite
 
-  spark fn core2 digitalwrite "A1,HIGH";
+  sn fn core2 digitalwrite "A1,HIGH";
 
-  spark var core1
+  sn var core1
 
 #Variables available for core 'core1':
 #  brewTime
 #  variable1
 
-  spark var core1 brewTime;
+  sn var core1 brewTime;
 
 #  120000
 
-  spark var core2
+  sn var core2
 
 #Variables available for core 'core2':
 #  coffeeStrength
 
-  spark var -i 100 -n 5 core2 coffeeStrength;
+  sn var -i 100 -n 5 core2 coffeeStrength;
 
 #100
 #100
@@ -299,7 +299,7 @@ Connected: true
 #96
 
 #My current personal favorite:
-  spark var -ci 100 core1 variable1;
+  sn var -ci 100 core1 variable1;
 
 #1
 #2
