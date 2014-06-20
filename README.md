@@ -13,7 +13,7 @@ Your cores become part of a collection, accessible by name, and will have their 
 2. [Collection](#collection)
 
 ##Core
-Create a new instance of a spark core. First parameter is authtoken, second parameter is deviceId.
+Create a new instance of a spark core. First parameter is accessToken, second parameter is deviceId.
 
 An object can also be used as the first parameter, as follows:
 
@@ -21,7 +21,7 @@ An object can also be used as the first parameter, as follows:
 var spark = require('sparknode');
 
 var core = new spark.Core({
-  authtoken: <Your Auth_Token>,
+  accessToken: <Your Auth_Token>,
   id: <Your device id>
 });
 ```
