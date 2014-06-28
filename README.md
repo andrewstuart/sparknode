@@ -111,6 +111,10 @@ var collection = new Collection(myAuthToken, { cacheFile: 'lib/cacheFile.json' }
 
 ##Example
 
+Imagine you have some two spark cores, which you've named core1 and core2. Imagine you also like coffee enough to dedicate a sparkcore to brewing coffee. Not hard to imagine, I'd guess.
+
+So you've set up at least one function, `brew()`,  one variable,  `remainingCoffeeTime`, and one event, `coffeeDone`, on core2. Core1 still has tinker installed, or at least has the digitalWrite function.
+
 ```javascript
 var sp = require('sparknode');
 var collection = new sp.Collection(myAuthToken);
@@ -124,13 +128,12 @@ collection.on('connect', function() {
       throw err;
     }
 
-    setTimeout(function() {
-      //General awesomeness goes here.
-      emailMe();
-      sendSocketIoMessage();
-      addCreamer();
-    }, timeUntilFinished);
+    emailMe('' + timeUntilFinished + ' milliseconds until your coffee is ready.');
   })
+
+  colleciton.core2.on('coffeeDone', function() {
+    emailMe('Your coffee is done. Enjoy!');
+  });
 
   //Get a variable
   collection.core2.remainingCoffeeTime(function(err, value) {
